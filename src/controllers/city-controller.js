@@ -1,7 +1,5 @@
 const { CityService } = require('../services/index')
-
 const cityService = new CityService();
-
 const create = async (req, res) => {
     try {
         const city = await cityService.createCity(req.body)
@@ -40,7 +38,6 @@ const destroy = async (req, res) => {
             message:'Not able to delete a city',
             err:error
         })
-        
     }
 }
 
