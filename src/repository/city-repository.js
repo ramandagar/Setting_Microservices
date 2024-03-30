@@ -31,6 +31,20 @@ class CityRepository {
         }
     }
 
+    async deleteAllCities(){
+        try {
+            await City.destroy({
+                where: {},
+                truncate: true
+            });
+            return true;
+        } catch (error) {
+            console.log("Something went wrong in the repository layer");
+            throw {error};
+        } 
+
+    }
+
     async updateCity(cityId,data){
         try {
             const city = await City.findByPk(cityId);

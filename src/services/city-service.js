@@ -25,6 +25,16 @@ class CityService {
             throw { error };
         }
     }
+
+    async deleteAllCities() {
+        try {
+            await this.cityRepository.deleteAllCities();
+            return true;
+        } catch (error) {
+            console.log("Something went wrong at service layer");
+            throw {error}
+        }
+    }
     
     async updateCity(cityId, data) {
          try {
