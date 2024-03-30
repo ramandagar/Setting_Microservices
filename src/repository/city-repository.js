@@ -1,5 +1,7 @@
-const {City} = require('../models/index')
+const { Op } = require("sequelize");
 
+
+const { City } = require('../models/index')
 class CityRepository {
  
     async createCity({name}){
@@ -19,8 +21,9 @@ class CityRepository {
             await City.destroy({
                 where: {
                     id: cityId
-                }
-            });
+                },
+                returning:true
+            }); 
             return true;
         } catch (error) {
             console.log("Something went wrong in the repository layer");
@@ -30,14 +33,14 @@ class CityRepository {
 
     async updateCity(cityId,data){
         try {
-            // const city = await City.findByPk(cityId);
-            // city.name = name;
-            // await city.save();
-            const city = await City.update(data,{
-                where: {
-                    id: cityId
-                }
-            })
+            const city = await City.findByPk(cityId);
+            city.name = data.name;
+            await city.save();
+            // const city = await City.update(data,{
+            //     where: {
+            //         id: cityId
+            //     }
+            // })
             return city;
         } catch (error) {
             console.log("Something went wrong in the repository layer");
@@ -53,6 +56,26 @@ class CityRepository {
             console.log("Something went wrong in the repository layer");
             throw {error};
         }
+    }
+
+    async getAllCities(filter){
+        try {
+            if(filter.name){
+                const cities = await City.findAll({
+                    where: {
+                        name:{
+                            [Op.startsWith]:filter.name,
+                        }
+                    }
+                })
+                return cities;
+            }
+            const cities = await City.findAll();
+            return cities;
+        } catch (error) {
+            console.log("Something went wrong in the repository layer");
+            throw {error};
+        } 
     }
 }
 
