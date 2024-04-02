@@ -19,7 +19,7 @@ const SuccessCodes = Object.freeze({
     PARTIAL_CONTENT:206,
     UNAUTHORIZED:401,
 })
-
+ 
 module.exports = {
     ClientErrors,
     ServerErrors,
